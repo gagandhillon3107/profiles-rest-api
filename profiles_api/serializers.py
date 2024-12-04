@@ -30,3 +30,14 @@ class UserProfileSerializer(serializers.ModelSerializer):
             instance.set_password(password)
 
         return super().update(instance, validated_data)
+
+
+class ProfileFeedSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        models = models.ProfileFeed
+        field = ("id", "UserProfile", "content", "created_on")
+        extra_Kwargs = (
+            {"UserProfile": {"read_only": True}},
+            {"created_on": {"read_only": True}},
+        )
