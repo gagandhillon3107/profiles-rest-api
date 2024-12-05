@@ -8,8 +8,8 @@ class HelloSerializer(serializers.Serializer):
 
 class UserProfileSerializer(serializers.ModelSerializer):
 
-    class meta:
-        models = models.UserProfile
+    class Meta:
+        model = models.UserProfile
         fields = ("id", "name", "email", "password")
         extra_kwargs = {
             "password": {"write_only": True, "style": {"input_type": "password"}}
@@ -25,19 +25,14 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         if "password" in validated_data:
-
             password = validated_data.pop("password")
             instance.set_password(password)
-
         return super().update(instance, validated_data)
 
 
 class ProfileFeedSerializer(serializers.ModelSerializer):
 
     class Meta:
-        models = models.ProfileFeed
-        field = ("id", "UserProfile", "content", "created_on")
-        extra_Kwargs = (
-            {"UserProfile": {"read_only": True}},
-            {"created_on": {"read_only": True}},
-        )
+        model = models.ProfileFeed
+        fields = ("id", "user", "content", "created_on")
+        extra_kwargs = {"user": {"read_only": True}}

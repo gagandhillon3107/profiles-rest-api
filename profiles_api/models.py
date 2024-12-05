@@ -14,7 +14,6 @@ class UserProfileManager(BaseUserManager):
 
         email = self.normalize_email(email)
         user = self.model(email=email, name=name)
-
         user.set_password(password)
         user.save(using=self._db)
 
@@ -56,3 +55,6 @@ class ProfileFeed(models.Model):
     user = models.ForeignKey("UserProfile", on_delete=models.CASCADE)
     content = models.CharField(max_length=255)
     created_on = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.content
